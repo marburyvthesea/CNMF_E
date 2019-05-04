@@ -1793,14 +1793,21 @@ classdef Sources2D < handle
             
             obj.compress_results();
             file_path = fullfile(obj.P.log_folder,  [strrep(get_date(), ' ', '_'), '.mat']);
-            log_file = obj.P.log_file; 
+            
+            log_folder = obj.P.log_folder; % JJM new edits
+            log_file = [log_folder, 'logs.txt']; % JJM new edits
+            obj.P.log_file = log_file ; %JJM new edits
+            %log_file = obj.P.log_file; % original
             if exist('original_logfolder', 'var')
                obj.P.log_folder = original_log_folder;  
             end
             if exist('original_logfile', 'var')
                 obj.P.log_file = original_logfile; 
             end
-            evalin('caller', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
+            % evalin('caller', sprintf('save(''%s'', ''neuron'',
+            % ''save_*'', ''show_*'', ''use_parallel'', ''with_*'',
+            % ''-v7.3''); ', file_path)); %original 
+            evalin('base', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path)); %JJM edited 'caller' to 'base'
             try
                 fp = fopen(log_file, 'a');
                 fprintf(fp, '\n--------%s--------\n[%s]\bSave the current workspace into file \n\t%s\n\n', get_date(), get_minute(), file_path);
@@ -1835,7 +1842,7 @@ classdef Sources2D < handle
                 neuron.compress_results();
                 file_path = [neuron.P.log_folder,  strrep(get_date(), ' ', '_'), '.mat'];
                 
-                save(file_path, 'neuron');
+                %save(file_path, 'neuron'); %removing saving of individual files, throws error
                 try
                     fp = fopen(neuron.P.log_file, 'a');
                     fprintf(fp, '\n--------%s--------\n[%s]\bSave the current workspace into file \n\t%s\n\n', get_date(), get_minute(), file_path);

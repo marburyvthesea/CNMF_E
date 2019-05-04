@@ -4,15 +4,15 @@ global  d1 d2 numFrame ssub tsub sframe num2read Fs neuron neuron_ds ...
     neuron_full Ybg_weights; %#ok<NUSED> % global variables, don't change them manually
 
 %% select data and map it to the RAM
-nam = './data_1p.tif';
+nam = '/Volumes/My_Passport/MiniscopeMovies/1_24_2019/GRIN_011_ACHf20/H10_M19_S59_ms9/memmap_0008_substack_d1_480_d2_752_d3_1_order_C_frames_100__resized.tif';
 cnmfe_choose_data;
 
 %% create Source2D class object for storing results and parameters
-Fs = 10;             % frame rate
-ssub = 1;           % spatial downsampling factor
+Fs = 20;             % frame rate
+ssub = 2;           % spatial downsampling factor
 tsub = 1;           % temporal downsampling factor
-gSig = 3;           % width of the gaussian kernel, which can approximates the average neuron shape
-gSiz = 13;          % maximum diameter of neurons in the image plane. larger values are preferred.
+gSig = 7;           % width of the gaussian kernel, which can approximates the average neuron shape
+gSiz = 30;          % maximum diameter of neurons in the image plane. larger values are preferred.
 neuron_full = Sources2D('d1',d1,'d2',d2, ... % dimensions of datasets
     'ssub', ssub, 'tsub', tsub, ...  % downsampleing
     'gSig', gSig,...    % sigma of the 2D gaussian that approximates cell bodies
@@ -63,7 +63,7 @@ save_avi = false;   %save the initialization procedure as an avi movie.
 patch_par = [1,1]*1; %1;  % divide the optical field into m X n patches and do initialization patch by patch. It can be used when the data is too large 
 K = []; % maximum number of neurons to search within each patch. you can use [] to search the number automatically
 
-min_corr = 0.8;     % minimum local correlation for a seeding pixel
+min_corr = 0.9;     % minimum local correlation for a seeding pixel
 min_pnr = 8;       % minimum peak-to-noise ratio for a seeding pixel
 min_pixel = gSig^2;      % minimum number of nonzero pixels for each neuron
 bd = 1;             % number of rows/columns to be ignored in the boundary (mainly for motion corrected data)
