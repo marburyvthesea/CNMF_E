@@ -1,3 +1,9 @@
 [submodule "quest_analysis"]
 	path = quest_analysis
 	url = https://github.com/marburyvthesea/quest_CNMFE_analysis.git
+[submodule "quest_CNMFE_analysis"]
+	path = quest_CNMFE_analysis
+	url = https://github.com/marburyvthesea/quest_CNMFE_analysis.git
+[submodule "quest_MATLAB_cnmfe"]
+	path = quest_MATLAB_cnmfe
+	url = https://github.com/marburyvthesea/quest_MATLAB_cnmfe.git
