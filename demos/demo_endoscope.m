@@ -11,7 +11,7 @@ cnmfe_choose_data;
 Fs = 20;             % frame rate
 ssub = 4;           % spatial downsampling factor
 tsub = 1;           % temporal downsampling factor
-gSig = 7;           % width of the gaussian kernel, which can approximates the average neuron shape
+gSig = 5;           % width of the gaussian kernel, which can approximates the average neuron shape
 gSiz = 21;          % maximum diameter of neurons in the image plane. larger values are preferred.
 neuron_full = Sources2D('d1',d1,'d2',d2, ... % dimensions of datasets
     'ssub', ssub, 'tsub', tsub, ...  % downsampleing
@@ -58,7 +58,7 @@ cnmfe_show_corr_pnr;    % this step is not necessary, but it can give you some..
 
 %% initialization of A, C
 % parameters
-debug_on = true;   % visualize the initialization procedue. 
+debug_on = false;   % visualize the initialization procedue. 
 save_avi = false;   %save the initialization procedure as an avi movie. 
 patch_par = [1,1]*1; %1;  % divide the optical field into m X n patches and do initialization patch by patch. It can be used when the data is too large 
 K = []; % maximum number of neurons to search within each patch. you can use [] to search the number automatically
