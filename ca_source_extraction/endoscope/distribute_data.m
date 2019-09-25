@@ -107,7 +107,7 @@ if ~exist('dir_output', 'var') || ~exist(dir_output, 'dir')
 elseif dir_output(end)~=filesep
     dir_output = dir_output(1:(end-1)); 
 end
-folder_analysis = [dir_output, file_nm, '_source_extraction'];
+folder_analysis = [dir_output, file_nm, '_source_extraction_', datestr(now,'HH:MM:SS.FFF')]; % JJM added timestamp to folder 
 
 mat_file = [folder_analysis, filesep,...
     sprintf('data_%d_%d_%d.mat', patch_dims(1), patch_dims(2), w_overlap)];
