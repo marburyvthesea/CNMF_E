@@ -1,4 +1,4 @@
-function neuron = fix_mat_files(root)
+function neuron = fix_mat_files_jjm(root)
 
     %% Get path of all .mat files in root directory
     % get filenames to process
@@ -14,7 +14,8 @@ function neuron = fix_mat_files(root)
             neuron = struct(neuron);
             neruon_out = neuron ;
             neuron_out.batches = [] ; 
-            save([files(ff).folder, '/out.mat'],'-v6','-struct','neruon_out');
+            fname = files(ff).name ;
+            save([files(ff).folder, strcat('/', fname, '_out.mat')],'-v6','-struct','neruon_out');
             clear neuron;
         end
     end

@@ -208,7 +208,7 @@ classdef Sources2D < handle
                 frame_range = [1, T];
             end
             Ypatch = get_patch_data(mat_data, patch_pos, frame_range, false);
-            Ypatch(isnan(Ypatch)) = 0; 
+            Ypatch(isnan(Ypatch)) = 0;
         end
         %% distribute data and be ready to run source extraction
         function getReady(obj, pars_envs, filter_kernel)
@@ -1278,6 +1278,11 @@ classdef Sources2D < handle
             if ~exist('frame_range', 'var')||isempty(frame_range)
                 frame_range = obj.frame_range;
             end
+            if isempty(obj.frame_range)
+                frame_shift = 0;
+            else
+                frame_shift = 1 - obj.frame_range(1);
+            end
             % frames to be loaded for initialization
             T = diff(frame_range) + 1;
             
@@ -1313,7 +1318,7 @@ classdef Sources2D < handle
                     ind = (reshape(mask(:), 1, [])* obj.A_prev>0);
                     
                     A_patch = obj.A_prev(logical(mask), ind);
-                    C_patch = obj.C_prev(ind, frame_range(1):frame_range(2));
+                    C_patch = obj.C_prev(ind, frame_shift+(frame_range(1):frame_range(2)));
                     
                     % reconstruct background
                     %                     Cmean = mean(C_patch , 2);
@@ -1337,12 +1342,12 @@ classdef Sources2D < handle
                 elseif strcmpi(bg_model, 'nmf')
                     b_nmf = obj.b{mpatch};
                     f_nmf = obj.f{mpatch};
-                    Ybg(tmp_patch(1):tmp_patch(2), tmp_patch(3):tmp_patch(4),:) = reshape(b_nmf*f_nmf(:, frame_range(1):frame_range(2)), diff(tmp_patch(1:2))+1, [], T);
+                    Ybg(tmp_patch(1):tmp_patch(2), tmp_patch(3):tmp_patch(4),:) = reshape(b_nmf*f_nmf(:, frame_shift+(frame_range(1):frame_range(2))), diff(tmp_patch(1:2))+1, [], T);
                 else
                     b_svd = obj.b{mpatch};
                     f_svd = obj.f{mpatch};
                     b0_svd = obj.b0{mpatch};
-                    Ybg(tmp_patch(1):tmp_patch(2), tmp_patch(3):tmp_patch(4),:) = reshape(bsxfun(@plus, b_svd*f_svd(:, frame_range(1):frame_range(2)), b0_svd), diff(tmp_patch(1:2))+1, [], T);
+                    Ybg(tmp_patch(1):tmp_patch(2), tmp_patch(3):tmp_patch(4),:) = reshape(bsxfun(@plus, b_svd*f_svd(:, frame_shift+(frame_range(1):frame_range(2))), b0_svd), diff(tmp_patch(1:2))+1, [], T);
                 end
                 
             end
@@ -1793,22 +1798,30 @@ classdef Sources2D < handle
             
             obj.compress_results();
             file_path = fullfile(obj.P.log_folder,  [strrep(get_date(), ' ', '_'), '.mat']);
+<<<<<<< HEAD
             
             log_folder = obj.P.log_folder; % JJM new edits
             log_file = [log_folder, 'logs.txt']; % JJM new edits
             obj.P.log_file = log_file ; %JJM new edits
             %log_file = obj.P.log_file; % original
+=======
+>>>>>>> 45641cfb548339932c8cf1f00df86a22e39d1a04
             if exist('original_logfolder', 'var')
-               obj.P.log_folder = original_log_folder;  
+                obj.P.log_folder = original_log_folder;
             end
             if exist('original_logfile', 'var')
-                obj.P.log_file = original_logfile; 
+                obj.P.log_file = original_logfile;
             end
+<<<<<<< HEAD
             % evalin('caller', sprintf('save(''%s'', ''neuron'',
             % ''save_*'', ''show_*'', ''use_parallel'', ''with_*'',
             % ''-v7.3''); ', file_path)); %original 
             evalin('caller', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path)); 
+=======
+            evalin('base', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
+>>>>>>> 45641cfb548339932c8cf1f00df86a22e39d1a04
             try
+                            log_file = obj.P.log_file;
                 fp = fopen(log_file, 'a');
                 fprintf(fp, '\n--------%s--------\n[%s]\bSave the current workspace into file \n\t%s\n\n', get_date(), get_minute(), file_path);
                 fprintf('The current workspace has been saved into file \n\t%s\n\n', file_path);
@@ -1816,9 +1829,9 @@ classdef Sources2D < handle
             end
             
             if exist('zip_file_path', 'var') && ~isempty(zip_file_path)
-               [zip_dir, zip_name, ~] = fileparts(get_fullname(zip_file_path)); 
-               zip([zip_name, '.zip'], {file_path, log_file}, zip_dir); 
-               fprintf('The results and the log files were compresed into file \n%s\n', zip_file_path); 
+                [zip_dir, zip_name, ~] = fileparts(get_fullname(zip_file_path));
+                zip([zip_name, '.zip'], {file_path, log_file}, zip_dir);
+                fprintf('The results and the log files were compresed into file \n%s\n', zip_file_path);
             end
             
         end
@@ -2044,12 +2057,12 @@ classdef Sources2D < handle
                 if nnz(A_temp)>36
                     l = bwlabel(medfilt2(A_temp>thr_a));
                 else
-                    l = bwlabel(A_temp>=thr_a); 
+                    l = bwlabel(A_temp>=thr_a);
                 end
                 l_most = mode(l(l>0));
                 if isnan(l_most)
-                    Coor{m} = zeros(2, 1); 
-                    continue; 
+                    Coor{m} = zeros(2, 1);
+                    continue;
                 end
                 ind = (l==l_most);
                 A_temp(ind) =  max(A_temp(ind), thr_a);
@@ -2173,7 +2186,7 @@ classdef Sources2D < handle
         
         %% manually merge multiple pairs
         [merged_ROIs, newIDs, obj_bk]  = manual_merge_multi_pairs(obj, MC, show_merge)
-
+        
     end
     
 end
