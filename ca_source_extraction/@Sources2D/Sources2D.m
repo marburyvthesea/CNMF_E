@@ -1798,28 +1798,16 @@ classdef Sources2D < handle
             
             obj.compress_results();
             file_path = fullfile(obj.P.log_folder,  [strrep(get_date(), ' ', '_'), '.mat']);
-<<<<<<< HEAD
-            
-            log_folder = obj.P.log_folder; % JJM new edits
-            log_file = [log_folder, 'logs.txt']; % JJM new edits
-            obj.P.log_file = log_file ; %JJM new edits
-            %log_file = obj.P.log_file; % original
-=======
->>>>>>> 45641cfb548339932c8cf1f00df86a22e39d1a04
+
             if exist('original_logfolder', 'var')
                 obj.P.log_folder = original_log_folder;
             end
             if exist('original_logfile', 'var')
                 obj.P.log_file = original_logfile;
             end
-<<<<<<< HEAD
-            % evalin('caller', sprintf('save(''%s'', ''neuron'',
-            % ''save_*'', ''show_*'', ''use_parallel'', ''with_*'',
-            % ''-v7.3''); ', file_path)); %original 
-            evalin('caller', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path)); 
-=======
+
             evalin('base', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
->>>>>>> 45641cfb548339932c8cf1f00df86a22e39d1a04
+
             try
                             log_file = obj.P.log_file;
                 fp = fopen(log_file, 'a');
