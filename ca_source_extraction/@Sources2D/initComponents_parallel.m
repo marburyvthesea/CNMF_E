@@ -430,6 +430,14 @@ for mpatch=1:(nr_patch*nc_patch)
     
     % keep neurons whose seed pixel is within the patch
     ctr = round( tmp_results.center);
+    %% jjm debugging 
+    
+    %disp(ind_patch);
+    disp(size(ind_patch));
+    disp(ctr(:, 1));
+    disp(ctr(:,2));
+    %cont_inp = input('paused, make input:    ');
+        
     ind= sub2ind(size(ind_patch), ctr(:, 1), ctr(:,2));
     tmp_ind = (~ind_patch(ind));
     
