@@ -433,7 +433,9 @@ for mpatch=1:(nr_patch*nc_patch)
     %% jjm debugging 
     
     %disp(ind_patch);
+    disp('patch indicies');
     disp(size(ind_patch));
+    disp('cell centers');
     disp(ctr(:, 1));
     disp(ctr(:,2));
     %cont_inp = input('paused, make input:    ');
