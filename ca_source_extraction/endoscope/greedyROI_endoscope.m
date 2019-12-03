@@ -490,7 +490,7 @@ if exist('avi_file', 'var')
     if avi_file.Duration==0
         warning('off', 'MATLAB:audiovideo:VideoWriter:noFramesWritten')
         avi_file.close();
-        delete(avi_name);
+        %delete(avi_name);
     else
         avi_file.close();
     end
