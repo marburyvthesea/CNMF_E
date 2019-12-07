@@ -1806,7 +1806,7 @@ classdef Sources2D < handle
                 obj.P.log_file = original_logfile;
             end
 
-            evalin('base', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
+            evalin('caller', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
 
             try
                             log_file = obj.P.log_file;
