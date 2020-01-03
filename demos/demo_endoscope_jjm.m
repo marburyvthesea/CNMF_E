@@ -11,8 +11,8 @@ cnmfe_choose_data;
 Fs = 10;             % frame rate
 ssub = 1;           % spatial downsampling factor
 tsub = 1;           % temporal downsampling factor
-gSig = 3;           % width of the gaussian kernel, which can approximates the average neuron shape
-gSiz = 13;          % maximum diameter of neurons in the image plane. larger values are preferred.
+gSig = 3;  %3         % width of the gaussian kernel, which can approximates the average neuron shape
+gSiz = 13;  %13        % maximum diameter of neurons in the image plane. larger values are preferred.
 neuron_full = Sources2D('d1',d1,'d2',d2, ... % dimensions of datasets
     'ssub', ssub, 'tsub', tsub, ...  % downsampleing
     'gSig', gSig,...    % sigma of the 2D gaussian that approximates cell bodies
@@ -49,10 +49,11 @@ num2read= numFrame;             % user input: how many frames to read   (optiona
 tic;
 cnmfe_load_data;
 fprintf('Time cost in downsapling data:     %.2f seconds\n', toc);
-
+%%
 Y = neuron.reshape(Y, 1);       % convert a 3D video into a 2D matrix
 
 %% compute correlation image and peak-to-noise ratio image.
+%% 
 cnmfe_show_corr_pnr;    % this step is not necessary, but it can give you some...
                         % hints on parameter selection, e.g., min_corr & min_pnr
 
@@ -63,8 +64,8 @@ save_avi = false;   %save the initialization procedure as an avi movie.
 patch_par = [64,64]*1; %1;  % divide the optical field into m X n patches and do initialization patch by patch. It can be used when the data is too large 
 K = []; % maximum number of neurons to search within each patch. you can use [] to search the number automatically
 
-min_corr = 0.8;     % minimum local correlation for a seeding pixel
-min_pnr = 10;       % minimum peak-to-noise ratio for a seeding pixel
+min_corr = 0.9;     % minimum local correlation for a seeding pixel
+min_pnr = 40;       % minimum peak-to-noise ratio for a seeding pixel
 min_pixel = gSig^2;      % minimum number of nonzero pixels for each neuron
 bd = 1;             % number of rows/columns to be ignored in the boundary (mainly for motion corrected data)
 neuron.updateParams('min_corr', min_corr, 'min_pnr', min_pnr, ...

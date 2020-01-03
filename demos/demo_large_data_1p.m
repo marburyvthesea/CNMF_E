@@ -127,8 +127,9 @@ if choose_params
     % change parameters for optimized initialization
     [gSig, gSiz, ring_radius, min_corr, min_pnr] = neuron.set_parameters();
 end
-
+%%
 [center, Cn, PNR] = neuron.initComponents_parallel(K, frame_range, save_initialization, use_parallel);
+%%
 neuron.compactSpatial();
 if show_init
     figure();
