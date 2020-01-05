@@ -64,8 +64,8 @@ merge_thr_spatial = [0.8, 0.4, -inf];  % merge components with highly correlated
 
 % -------------------------  INITIALIZATION   -------------------------  %
 K = [];             % maximum number of neurons per patch. when K=[], take as many as possible.
-min_corr = 0.8;     % minimum local correlation for a seeding pixel
-min_pnr = 8;       % minimum peak-to-noise ratio for a seeding pixel
+min_corr = 0.9;     % minimum local correlation for a seeding pixel
+min_pnr = 40;       % minimum peak-to-noise ratio for a seeding pixel
 min_pixel = gSig^2;      % minimum number of nonzero pixels for each neuron
 bd = 0;             % number of rows/columns to be ignored in the boundary (mainly for motion corrected data)
 frame_range = [];   % when [], uses all frames
@@ -128,7 +128,7 @@ if choose_params
     [gSig, gSiz, ring_radius, min_corr, min_pnr] = neuron.set_parameters();
 end
 %%
-%[center, Cn, PNR] = neuron.initComponents_parallel(K, frame_range, save_initialization, use_parallel);
+[center, Cn, PNR] = neuron.initComponents_parallel(K, frame_range, save_initialization, use_parallel);
 %%
 neuron.compactSpatial();
 if show_init

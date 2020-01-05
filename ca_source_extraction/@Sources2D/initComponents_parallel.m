@@ -440,7 +440,26 @@ for mpatch=1:(nr_patch*nc_patch)
     disp(ctr(:, 1));
     disp(ctr(:,2));
     %cont_inp = input('paused, make input:    ');
-        
+    %%JJM: create an extra flag here to remove cells that are beyond batch
+    %coordinates
+    tmp_ind = true(size(ctr, 1), 1);
+    for cell_idx=1:size(ctr, 1)
+        if (ctr(cell_idx, 1)>size(ind_patch, 1)) || (ctr(cell_idx, 2)>size(ind_patch, 2))
+            tmp_ind(cell_idx) = false;
+        end
+    end
+    
+    tmp_results.Ain = tmp_results.Ain(:, tmp_ind); 
+    tmp_results.Cin = tmp_results.Cin(tmp_ind,:);
+    tmp_results.Cin_raw = tmp_results.Cin_raw(tmp_ind,:); 
+    tmp_results.center = tmp_results.center(tmp_ind,:);
+    if options.deconv_flag
+        tmp_results.Sin = tmp_results.Sin(tmp_ind,:);
+        tmp_results.kernel_pars = tmp_results.kernel_pars(tmp_ind,:);
+    end
+    ctr = ctr(tmp_ind, :);
+   
+    %% keep neurons whose seed pixel is within the patch
     ind= sub2ind(size(ind_patch), ctr(:, 1), ctr(:,2));
     tmp_ind = (~ind_patch(ind));
     
