@@ -434,7 +434,8 @@ for mpatch=1:(nr_patch*nc_patch)
     
     %disp(ind_patch);
     disp('patch indicies');
-    disp(size(ind_patch));
+    disp(tmp_patch);
+    disp(tmp_block);
     disp('cell centers');
     disp(ctr(:, 1));
     disp(ctr(:,2));

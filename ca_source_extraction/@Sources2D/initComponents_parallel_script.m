@@ -205,7 +205,7 @@ bg_ssub = options.bg_ssub;
 
 %% preallocate spaces for saving model variables relating to background components
 bg_model = obj.options.background_model;
-W = cell(nr_patch, nc_patch);    % matrix for saving the weight matrix within each block
+W = cell(nr_patch, nc_patch);    % matrix for saving the weight matrix within each block %patch?
 b0 = cell(nr_patch, nc_patch);   % constant baselines for all pixels
 b = cell(nr_patch, nc_patch);
 f = cell(nr_patch, nc_patch);
@@ -216,9 +216,9 @@ if strcmpi(bg_model, 'ring')
     parfor mpatch=1:(nr_patch*nc_patch)
         tmp_patch = patch_pos{mpatch};    % patch position
         tmp_block = block_pos{mpatch};    % block position
-        nr = diff(tmp_patch(1:2)) + 1;
-        nc = diff(tmp_patch(3:4)) + 1;
-        nr_block = diff(tmp_block(1:2))+1;
+        nr = diff(tmp_patch(1:2)) + 1; % number of rows in patch
+        nc = diff(tmp_patch(3:4)) + 1; % number of columns in patch
+        nr_block = diff(tmp_block(1:2))+1; % number of rows in block
         nc_block = diff(tmp_block(3:4))+1;
         b0{mpatch} = zeros(nr*nc, 1);
         
@@ -306,6 +306,9 @@ PNR = zeros(d1, d2);
 default_kernel = obj.kernel;
 
 results = cell(nr_patch*nc_patch, 1);
+
+%%
+
 if use_parallel
     parfor mpatch=1:(nr_patch*nc_patch)
         % get the indices corresponding to the selected patch
@@ -434,19 +437,40 @@ for mpatch=1:(nr_patch*nc_patch)
     
     %disp(ind_patch);
     disp('patch indicies');
-    disp(size(ind_patch));
+    disp(tmp_patch);
+    disp(tmp_block);
     disp('cell centers');
     disp(ctr(:, 1));
     disp(ctr(:,2));
     %cont_inp = input('paused, make input:    ');
-        
+    %JJM: create an extra flag here to remove cells that are beyond batch
+    %coordinates
+    tmp_ind = true(size(ctr, 1), 1);
+    for cell=1:size(ctr, 1)
+        if (ctr(cell, 1)>size(ind_patch, 1)) || (ctr(cell, 2)>size(ind_patch, 2))
+            tmp_ind(cell) = false;
+        end
+    end
+    
+    tmp_results.Ain = tmp_results.Ain(:, tmp_ind); 
+    tmp_results.Cin = tmp_results.Cin(tmp_ind,:);
+    tmp_results.Cin_raw = tmp_results.Cin_raw(tmp_ind,:); 
+    tmp_results.center = tmp_results.center(tmp_ind,:);
+    if options.deconv_flag
+        tmp_results.Sin = tmp_results.Sin(tmp_ind,:);
+        tmp_results.kernel_pars = tmp_results.kernel_pars(tmp_ind,:);
+    end
+    ctr = ctr(tmp_ind, :);
+    %%
+    
+    % keep neurons whose seed pixel is within the patch
     ind= sub2ind(size(ind_patch), ctr(:, 1), ctr(:,2));
     tmp_ind = (~ind_patch(ind));
     
     tmp_Ain = tmp_results.Ain(:, tmp_ind);
     tmp_Cin = tmp_results.Cin(tmp_ind,:);
     tmp_Cin_raw = tmp_results.Cin_raw(tmp_ind,:);
-    tmp_center = tmp_results.center(tmp_ind,:) ;
+    tmp_center = tmp_results.center(tmp_ind,:);
     tmp_Cn = tmp_results.Cn;
     tmp_PNR = tmp_results.PNR;
     if options.deconv_flag

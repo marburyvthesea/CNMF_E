@@ -128,7 +128,7 @@ if choose_params
     [gSig, gSiz, ring_radius, min_corr, min_pnr] = neuron.set_parameters();
 end
 %%
-[center, Cn, PNR] = neuron.initComponents_parallel(K, frame_range, save_initialization, use_parallel);
+%[center, Cn, PNR] = neuron.initComponents_parallel(K, frame_range, save_initialization, use_parallel);
 %%
 neuron.compactSpatial();
 if show_init
@@ -152,7 +152,7 @@ neuron.merge_high_corr(show_merge, merge_thr_spatial);
 %% pick neurons from the residual
 [center_res, Cn_res, PNR_res] =neuron.initComponents_residual_parallel([], save_initialization, use_parallel, min_corr_res, min_pnr_res, seed_method_res);
 if show_init
-    axes(ax_init);
+    %axes(ax_init);
     plot(center_res(:, 2), center_res(:, 1), '.g', 'markersize', 10);
 end
 neuron_init_res = neuron.copy();
