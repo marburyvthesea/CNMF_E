@@ -1805,8 +1805,8 @@ classdef Sources2D < handle
             if exist('original_logfile', 'var')
                 obj.P.log_file = original_logfile;
             end
-
-            evalin('caller', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
+%% changing to base JJM
+            evalin('base', sprintf('save(''%s'', ''neuron'', ''save_*'', ''show_*'', ''use_parallel'', ''with_*'', ''-v7.3''); ', file_path));
 
             try
                             log_file = obj.P.log_file;
