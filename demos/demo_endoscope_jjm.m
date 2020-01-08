@@ -4,7 +4,7 @@ global  d1 d2 numFrame ssub tsub sframe num2read Fs neuron neuron_ds ...
     neuron_full Ybg_weights; %#ok<NUSED> % global variables, don't change them manually
 
 %% select data and map it to the RAM
-nam = '/Users/johnmarshall/Documents/MATLAB/CNMF_E_jjm/demos/data_1p.tif';
+nam = '/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_200_800_resized.h5';
 cnmfe_choose_data;
 
 %% create Source2D class object for storing results and parameters

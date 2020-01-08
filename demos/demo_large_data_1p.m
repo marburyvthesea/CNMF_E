@@ -3,18 +3,18 @@
 
 %% choose data
 neuron = Sources2D();
-nam = get_fullname('./data_1p.tif');          % this demo data is very small, here we just use it as an example
+nam = get_fullname('/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_500_700_resized.h5');          % this demo data is very small, here we just use it as an example
 nam = neuron.select_data(nam);  %if nam is [], then select data interactively
 
 %% parameters
 % -------------------------    COMPUTATION    -------------------------  %
 pars_envs = struct('memory_size_to_use', 8, ...   % GB, memory space you allow to use in MATLAB
     'memory_size_per_patch', 0.6, ...   % GB, space for loading data within one patch
-    'patch_dims', [64, 64]);  %GB, patch size
+    'patch_dims', [128, 128]);  %GB, patch size
 
 % -------------------------      SPATIAL      -------------------------  %
-gSig = 3;           % pixel, gaussian width of a gaussian kernel for filtering the data. 0 means no filtering
-gSiz = 13;          % pixel, neuron diameter
+gSig = 7;           % pixel, gaussian width of a gaussian kernel for filtering the data. 0 means no filtering
+gSiz = 21;          % pixel, neuron diameter
 ssub = 1;           % spatial downsampling factor
 with_dendrites = false;   % with dendrites or not
 if with_dendrites
@@ -32,7 +32,7 @@ spatial_constraints = struct('connected', true, 'circular', false);  % you can i
 spatial_algorithm = 'hals_thresh';
 
 % -------------------------      TEMPORAL     -------------------------  %
-Fs = 10;             % frame rate
+Fs = 20;             % frame rate
 tsub = 1;           % temporal downsampling factor
 deconv_flag = true;     % run deconvolution or not 
 deconv_options = struct('type', 'ar1', ... % model of the calcium traces. {'ar1', 'ar2'}
@@ -222,7 +222,7 @@ Coor = neuron.show_contours(0.6);
 
 
 %% create a video for displaying the
-amp_ac = 140;
+amp_ac = 3:0;
 range_ac = 5+[0, amp_ac];
 multi_factor = 10;
 range_Y = 1300+[0, amp_ac*multi_factor];
