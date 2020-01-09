@@ -1843,7 +1843,7 @@ classdef Sources2D < handle
                 neuron.compress_results();
                 file_path = [neuron.P.log_folder,  strrep(get_date(), ' ', '_'), '.mat'];
                 
-                save(file_path, 'neuron'); %removing saving of individual files, throws error
+                %save(file_path, 'neuron'); %removing saving of individual files, throws error
                 try
                     fp = fopen(neuron.P.log_file, 'a');
                     fprintf(fp, '\n--------%s--------\n[%s]\bSave the current workspace into file \n\t%s\n\n', get_date(), get_minute(), file_path);
