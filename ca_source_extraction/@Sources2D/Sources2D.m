@@ -1805,7 +1805,7 @@ classdef Sources2D < handle
             if exist('original_logfile', 'var')
                 obj.P.log_file = original_logfile;
             end
-%% changing to base JJM, removed other variables to save aside from neuron
+%% changing to caller JJM, removed other variables to save aside from neuron
             evalin('base', sprintf('save(''%s'', ''neuron'', ''-v7.3''); ', file_path));
 
             try
