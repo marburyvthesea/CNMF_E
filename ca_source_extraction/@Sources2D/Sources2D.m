@@ -1811,7 +1811,7 @@ classdef Sources2D < handle
             if exist('original_logfile', 'var')
                 obj.P.log_file = original_logfile;
             end
-%% changing to caller JJM, removed other variables to save aside from neuron
+%% changing to base JJM, removed other variables to save aside from neuron
             evalin('base', sprintf('save(''%s'', ''neuron'', ''-v7.3''); ', file_path));
 
             try
@@ -1848,8 +1848,11 @@ classdef Sources2D < handle
                 % update background
                 neuron.compress_results();
                 file_path = [neuron.P.log_folder,  strrep(get_date(), ' ', '_'), '.mat'];
-                
-                %save(file_path, 'neuron'); %removing saving of individual files, throws error
+                try
+                    save(file_path, 'neuron'); %removing saving of individual files, throws error
+                catch
+                    disp('error saving individual files, image data not saved');   
+                end
                 try
                     fp = fopen(neuron.P.log_file, 'a');
                     fprintf(fp, '\n--------%s--------\n[%s]\bSave the current workspace into file \n\t%s\n\n', get_date(), get_minute(), file_path);
