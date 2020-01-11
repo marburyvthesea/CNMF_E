@@ -743,6 +743,9 @@ classdef Sources2D < handle
         ind_del = viewNeurons_jjm(obj, ind, C2, folder_nm);
         displayNeurons_jjm(obj, ind, C2, folder_nm);
         
+        %%
+        ind_del = viewNeurons_movie_jjm(obj, ind, C2, folder_nm);
+        
         %% function remove false positives
         function ids = remove_false_positives(obj, show_delete)
             if ~exist('show_delete', 'var')

@@ -4,15 +4,15 @@ global  d1 d2 numFrame ssub tsub sframe num2read Fs neuron neuron_ds ...
     neuron_full Ybg_weights; %#ok<NUSED> % global variables, don't change them manually
 
 %% select data and map it to the RAM
-nam = '/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_200_800_resized.h5';
+nam = '/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/subset/memmap_0012_d1_480_d2_752_d3_1_order_C_frames_400_600_.mmap';
 cnmfe_choose_data;
 
 %% create Source2D class object for storing results and parameters
-Fs = 10;             % frame rate
-ssub = 1;           % spatial downsampling factor
+Fs = 20;             % frame rate
+ssub = 2;           % spatial downsampling factor
 tsub = 1;           % temporal downsampling factor
-gSig = 3;  %3         % width of the gaussian kernel, which can approximates the average neuron shape
-gSiz = 13;  %13        % maximum diameter of neurons in the image plane. larger values are preferred.
+gSig = 7;  %3         % width of the gaussian kernel, which can approximates the average neuron shape
+gSiz = 28;  %13        % maximum diameter of neurons in the image plane. larger values are preferred.
 neuron_full = Sources2D('d1',d1,'d2',d2, ... % dimensions of datasets
     'ssub', ssub, 'tsub', tsub, ...  % downsampleing
     'gSig', gSig,...    % sigma of the 2D gaussian that approximates cell bodies
@@ -36,7 +36,7 @@ dmin = 1;
 %% options for running deconvolution 
 neuron_full.options.deconv_flag = true; 
 neuron_full.options.deconv_options = struct('type', 'ar1', ... % model of the calcium traces. {'ar1', 'ar2'}
-    'method', 'foopsi', ... % method for running deconvolution {'foopsi', 'constrained', 'thresholded'}
+    'method', 'constrained', ... % method for running deconvolution {'foopsi', 'constrained', 'thresholded'}
     'smin', -5, ...         % minimum spike size. When the value is negative, the actual threshold is abs(smin)*noise level
     'optimize_pars', true, ...  % optimize AR coefficients
     'optimize_b', true, ...% optimize the baseline);
