@@ -1,6 +1,6 @@
 
 
-Y_test = Y_156_222_150_211;
+Y_test = demixed;
 T=20; 
 
 for t=1:T
