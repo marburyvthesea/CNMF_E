@@ -746,6 +746,12 @@ classdef Sources2D < handle
         %%
         ind_del = viewNeurons_movie_jjm(obj, ind, C2, folder_nm);
         
+        %%
+        movie_object = returndemixedvideo_jjm(obj, neuron_idx, frame_range)
+        
+        %%
+        movie_object = returncroppedraw_jjm(obj, neuron_idx, frame_range, raw_file)
+        
         %% function remove false positives
         function ids = remove_false_positives(obj, show_delete)
             if ~exist('show_delete', 'var')

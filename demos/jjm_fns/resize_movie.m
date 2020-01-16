@@ -4,7 +4,7 @@ function [newmov] = resize_movie(mov,factor)
 % read in the movie
 
 % reduce the movie by 2
-
+figure 
 % get dimensions of example.avi
     dims = size(mov(1).cdata);
 % scale axes, flip ydir for IMAGE, set units to pixels
@@ -24,5 +24,6 @@ function [newmov] = resize_movie(mov,factor)
       newmov(i)= getframe(ha);
     end
 % create new movie file
+close
 end
 

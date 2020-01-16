@@ -107,6 +107,28 @@ while and(m>=1, m<=length(ind))
     ax2.YAxis.Visible='off'; 
     ax2.XLim=([t(1), t(end)]);
     
+    %% pause to display moive trace 
+    
+    fprintf('Neuron %d, input frames for further analysis:');
+    
+    frames = input('frame range [start, end]');
+    raw_movie_file = input('path to raw movie file:');
+    raw_frames = input('frame range from raw file [start, end]');
+    
+    demixed_cell = obj.returndemixedvideo_jjm(m, frames);
+    demixed_forviewing = resize_movie(demixed_cell, 5); 
+    
+    figure;
+    movie(demixed_forviewing, 3); 
+    
+    raw_movie_object = returncroppedraw_jjm(obj, m, raw_frames, raw_movie_file) ; 
+    raw_forviewing = resize_movie(raw_movie_object, 5);
+    
+    figure;
+    
+    movie(raw_forviewing, 3); 
+    
+    
     %% save images
     if save_img
         drawnow();
