@@ -654,7 +654,7 @@ classdef Sources2D < handle
         
         %% view contours
         function [Coor, json_file] = viewContours(obj, Cn, contour_threshold, display, ind, ln_wd)
-            if or(isempty(Cn), ~exist('Cn', 'var') )
+            if or(isempty(Cn), ~exist('uron', 'var') )
                 Cn = reshape(obj.P.sn, obj.options.d1, obj.options.d2);
             end
             if (~exist('display', 'var') || isempty(display)); display=0; end

@@ -4,7 +4,7 @@ frame_range = [500, 550];
 cropped = true ;
 raw_data_file = '/Volumes/My_passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_400_600_resized.h5' ;
 raw_frame_range = [100, 150]; 
-raw_im_data_subset=raw_im_data(:,:,raw_frame_range(1):raw_frame_range(2));
+raw_im_data_subset=smod_bigread2(raw_data_file, raw_frame_range(1), raw_frame_range(2)-raw_frame_range(1));
 
 %% to recombine individual neuron
 
