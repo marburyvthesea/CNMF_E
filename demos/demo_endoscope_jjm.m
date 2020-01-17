@@ -4,15 +4,15 @@ global  d1 d2 numFrame ssub tsub sframe num2read Fs neuron neuron_ds ...
     neuron_full Ybg_weights; %#ok<NUSED> % global variables, don't change them manually
 
 %% select data and map it to the RAM
-nam = '/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/subset/memmap_0012_d1_480_d2_752_d3_1_order_C_frames_400_600_.mmap';
+nam = '/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/subset/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_200_400_resized_motion_corrected.tif';
 cnmfe_choose_data;
 
 %% create Source2D class object for storing results and parameters
 Fs = 20;             % frame rate
-ssub = 2;           % spatial downsampling factor
+ssub = 1;           % spatial downsampling factor
 tsub = 1;           % temporal downsampling factor
 gSig = 7;  %3         % width of the gaussian kernel, which can approximates the average neuron shape
-gSiz = 28;  %13        % maximum diameter of neurons in the image plane. larger values are preferred.
+gSiz = 32;  %13        % maximum diameter of neurons in the image plane. larger values are preferred.
 neuron_full = Sources2D('d1',d1,'d2',d2, ... % dimensions of datasets
     'ssub', ssub, 'tsub', tsub, ...  % downsampleing
     'gSig', gSig,...    % sigma of the 2D gaussian that approximates cell bodies
@@ -64,8 +64,8 @@ save_avi = false;   %save the initialization procedure as an avi movie.
 patch_par = [64,64]*1; %1;  % divide the optical field into m X n patches and do initialization patch by patch. It can be used when the data is too large 
 K = []; % maximum number of neurons to search within each patch. you can use [] to search the number automatically
 
-min_corr = 0.9;     % minimum local correlation for a seeding pixel
-min_pnr = 40;       % minimum peak-to-noise ratio for a seeding pixel
+min_corr = 0.7;     % minimum local correlation for a seeding pixel
+min_pnr = 10;       % minimum peak-to-noise ratio for a seeding pixel
 min_pixel = gSig^2;      % minimum number of nonzero pixels for each neuron
 bd = 1;             % number of rows/columns to be ignored in the boundary (mainly for motion corrected data)
 neuron.updateParams('min_corr', min_corr, 'min_pnr', min_pnr, ...

@@ -752,6 +752,9 @@ classdef Sources2D < handle
         %%
         movie_object = returncroppedraw_jjm(obj, neuron_idx, frame_range, raw_file)
         
+        %%
+        movie_object = returnjointvideo_jjm(obj, neuron_idx, frame_range, raw_file, raw_frame_range)
+        
         %% function remove false positives
         function ids = remove_false_positives(obj, show_delete)
             if ~exist('show_delete', 'var')

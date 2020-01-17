@@ -107,21 +107,34 @@ while and(m>=1, m<=length(ind))
     ax2.YAxis.Visible='off'; 
     ax2.XLim=([t(1), t(end)]);
     
-    %% pause to display moive trace 
+    %% pause to display moive trace    
+    display_movie_state = 1 ;
+    while display_movie_state > 0
     
-    fprintf('Neuron %d, input frames for further analysis:');
+        fprintf('Neuron %d, input frames for further analysis:');
     
-    frames = input('frame range [start, end]');
-    raw_movie_file = input('path to raw movie file:');
-    raw_frames = input('frame range from raw file [start, end]');
+        frames = input('frame range [start, end]');
+        raw_movie_file = input('path to raw movie file:');
+        raw_frames = input('frame range from raw file [start, end]');
     
-    demixed_cell = obj.returnjointvideo_jjm(obj, frames, raw_movie_file, raw_frames);
-    demixed_forviewing = resize_movie(demixed_cell, 5); 
-    
-    figure;
+        demixed_cell = obj.returnjointvideo_jjm(m, frames, raw_movie_file, raw_frames);
+        figure('position',[100 100 950 700])
+        set(gca,'visible','off')
+        movie(demixed_cell, 3); 
+        %demixed_forviewing = resize_movie(demixed_cell, 5); 
+        %movie(demixed_forviewing, 3);
 
-    movie(raw_forviewing, 3); 
+        fprintf('View more frames:');
+        cont_response = input('(1 = y/ 2 = n / 3 = repeat movie)?');
     
+        if cont_response == 1
+            display_movie_state = 1 ;
+        elseif cont_response == 2 
+            movie(demixed_cell, 3);
+        else
+            display_movie_state = 0 ;
+        end
+    end
     
     %% save images
     if save_img

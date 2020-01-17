@@ -9,8 +9,6 @@ raw_im_data_subset = smod_bigread2(raw_file,raw_frame_range(1),raw_frame_range(2
 c_mean = mean(obj.Coor{neuron_idx, 1}(1, :)) ; 
 r_mean = mean(obj.Coor{neuron_idx, 1}(2, :)) ;
 
-raw_cropped = raw_im_data_subset(r_lims(1):r_lims(2), c_lims(1):c_lims(2), :);
-
 %full image
 A_dense = full(obj.A(:,neuron_idx));
 A_reshaped_full = reshape(A_dense, [obj.options.d1, obj.options.d2]);
@@ -20,6 +18,7 @@ c_lims = [round(c_mean) - obj.options.gSiz*3, round(c_mean) + obj.options.gSiz*3
 r_lims = [round(r_mean) - obj.options.gSiz*3, round(r_mean) + obj.options.gSiz*3];
 A_reshaped = A_reshaped_full(r_lims(1):r_lims(2), c_lims(1):c_lims(2));
 demixed = zeros(r_lims(2)-r_lims(1)+1, c_lims(2)-c_lims(1)+1, frame_range(2)-frame_range(1));
+raw_cropped = raw_im_data_subset(r_lims(1):r_lims(2), c_lims(1):c_lims(2), :);
 
 C_neuron = obj.C(neuron_idx,:);   
 
@@ -66,7 +65,7 @@ subplot(1,2,1);
     image(rgb_raw); 
     %M_raw(frame) =  im2frame(double(ind_raw), cm_raw);
     joint_movie(frame) = getframe(gcf); 
-    pause(0.3); 
+    %pause(0.1); 
     
 end
 close
