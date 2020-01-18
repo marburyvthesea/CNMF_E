@@ -4,7 +4,7 @@ global  d1 d2 numFrame ssub tsub sframe num2read Fs neuron neuron_ds ...
     neuron_full Ybg_weights; %#ok<NUSED> % global variables, don't change them manually
 
 %% select data and map it to the RAM
-nam = '/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/subset/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_200_400_resized_motion_corrected.tif';
+nam = '/volumes/My_Passport/cnmfe_analysis_files/GRIN033/memmap_0000memmap_0000_resized_motion_corrected.tif';
 cnmfe_choose_data;
 
 %% create Source2D class object for storing results and parameters
@@ -65,17 +65,17 @@ patch_par = [64,64]*1; %1;  % divide the optical field into m X n patches and do
 K = []; % maximum number of neurons to search within each patch. you can use [] to search the number automatically
 
 min_corr = 0.7;     % minimum local correlation for a seeding pixel
-min_pnr = 10;       % minimum peak-to-noise ratio for a seeding pixel
+min_pnr = 20;       % minimum peak-to-noise ratio for a seeding pixel
 min_pixel = gSig^2;      % minimum number of nonzero pixels for each neuron
 bd = 1;             % number of rows/columns to be ignored in the boundary (mainly for motion corrected data)
 neuron.updateParams('min_corr', min_corr, 'min_pnr', min_pnr, ...
     'min_pixel', min_pixel, 'bd', bd);
 neuron.options.nk = 5;  % number of knots for detrending 
 
-%%
+%
 % greedy method for initialization
 tic;
-%%
+%
 [center, Cn, pnr] = neuron.initComponents_endoscope(Y, K, patch_par, debug_on, save_avi);
 fprintf('Time cost in initializing neurons:     %.2f seconds\n', toc);
 

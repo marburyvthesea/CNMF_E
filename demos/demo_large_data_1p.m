@@ -1,9 +1,9 @@
 %% clear the workspace and select data
-% clear; clc; close all;
+ clear; clc; close all;
 
 %% choose data
 neuron = Sources2D();
-nam = get_fullname('/Volumes/My_Passport/cnmfe_analysis_files/GRIN032/H17_M30_S22/motion_corrected/memmap_0003_d1_480_d2_752_d3_1_order_C_frames_1000__subset_500_700_resized.h5');          % this demo data is very small, here we just use it as an example
+nam = get_fullname('/volumes/My_Passport/cnmfe_analysis_files/GRIN033/memmap_0000memmap_0000_resized_motion_corrected.tif');          % this demo data is very small, here we just use it as an example
 nam = neuron.select_data(nam);  %if nam is [], then select data interactively
 
 %% parameters
@@ -14,7 +14,7 @@ pars_envs = struct('memory_size_to_use', 8, ...   % GB, memory space you allow t
 
 % -------------------------      SPATIAL      -------------------------  %
 gSig = 7;           % pixel, gaussian width of a gaussian kernel for filtering the data. 0 means no filtering
-gSiz = 21;          % pixel, neuron diameter
+gSiz = 32;          % pixel, neuron diameter
 ssub = 1;           % spatial downsampling factor
 with_dendrites = false;   % with dendrites or not
 if with_dendrites
@@ -64,15 +64,15 @@ merge_thr_spatial = [0.8, 0.4, -inf];  % merge components with highly correlated
 
 % -------------------------  INITIALIZATION   -------------------------  %
 K = [];             % maximum number of neurons per patch. when K=[], take as many as possible.
-min_corr = 0.9;     % minimum local correlation for a seeding pixel
-min_pnr = 40;       % minimum peak-to-noise ratio for a seeding pixel
+min_corr = 0.7;     % minimum local correlation for a seeding pixel
+min_pnr = 30;       % minimum peak-to-noise ratio for a seeding pixel
 min_pixel = gSig^2;      % minimum number of nonzero pixels for each neuron
 bd = 0;             % number of rows/columns to be ignored in the boundary (mainly for motion corrected data)
 frame_range = [];   % when [], uses all frames
 save_initialization = false;    % save the initialization procedure as a video.
 use_parallel = true;    % use parallel computation for parallel computing
 show_init = true;   % show initialization results
-choose_params = true; % manually choose parameters
+choose_params = false; % manually choose parameters
 center_psf = true;  % set the value as true when the background fluctuation is large (usually 1p data)
 % set the value as false when the background fluctuation is small (2p)
 
@@ -138,18 +138,18 @@ if show_init
     hold on;
     plot(center(:, 2), center(:, 1), '.r', 'markersize', 10);
 end
-
-%% estimate the background components
+%%
+% estimate the background components
 neuron.update_background_parallel(use_parallel);
 neuron_init = neuron.copy();
 
-%%  merge neurons and update spatial/temporal components
+%  merge neurons and update spatial/temporal components
 neuron.merge_neurons_dist_corr(show_merge);
 neuron.merge_high_corr(show_merge, merge_thr_spatial);
 
-%% update spatial components
+% update spatial components
 
-%% pick neurons from the residual
+% pick neurons from the residual
 [center_res, Cn_res, PNR_res] =neuron.initComponents_residual_parallel([], save_initialization, use_parallel, min_corr_res, min_pnr_res, seed_method_res);
 if show_init
     %axes(ax_init);
@@ -157,7 +157,7 @@ if show_init
 end
 neuron_init_res = neuron.copy();
 
-%% udpate spatial&temporal components, delete false positives and merge neurons
+% udpate spatial&temporal components, delete false positives and merge neurons
 % update spatial
 if update_sn
     neuron.update_spatial_parallel(use_parallel, true);
@@ -179,7 +179,7 @@ for m=1:2
     neuron.merge_neurons_dist_corr(show_merge);
 end
 
-%% add a manual intervention and run the whole procedure for a second time
+% add a manual intervention and run the whole procedure for a second time
 neuron.options.spatial_algorithm = 'nnls';
 if with_manual_intervention
     show_merge = true;
@@ -196,7 +196,7 @@ if with_manual_intervention
         neuron.viewNeurons(ids, neuron.C_raw);
     end
 end
-%% run more iterations
+% run more iterations
 neuron.update_background_parallel(use_parallel);
 neuron.update_spatial_parallel(use_parallel);
 neuron.update_temporal_parallel(use_parallel);
@@ -213,11 +213,11 @@ if K~=size(neuron.A,2)
     neuron.remove_false_positives();
 end
 
-%% save the workspace for future analysis
+% save the workspace for future analysis
 neuron.orderROIs('snr');
 cnmfe_path = neuron.save_workspace();
 
-%% show neuron contours
+% show neuron contours
 Coor = neuron.show_contours(0.6);
 
 
