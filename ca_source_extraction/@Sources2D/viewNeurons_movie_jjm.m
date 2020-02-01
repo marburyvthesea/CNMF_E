@@ -108,16 +108,27 @@ while and(m>=1, m<=length(ind))
     ax2.XLim=([t(1), t(end)]);
     
     %% pause to display moive trace    
-    display_movie_state = 1 ;
+    movie_switch = str(input('Neuron %d, show move? (y/n):'));
+    if movie_switch == 'y' 
+        display_movie_state = 1 ; 
+    else 
+        display_movie_state = 0 ; 
+    end
     while display_movie_state > 0
     
         fprintf('Neuron %d, input frames for further analysis:');
     
         frames = input('frame range [start, end]');
-        raw_movie_file = input('path to raw movie file:');
-        raw_frames = input('frame range from raw file [start, end]');
+        
+        movie_array_for_analysis = obj.file_id ; 
+        for rf_index=1:size(movie_array_for_analysis, 1) 
+            if ((frames(1)>=movie_array_for_analysis{rf_index,1}(1)) && (frames(1)<=movie_array_for_analysis{rf_index,1}(2)))
+                raw_video_file = movie_array_for_analysis{rf_index,2} ;
+                raw_frames = [frames(1)-movie_array_for_analysis{rf_index,1}(1)+1, frames(2)-movie_array_for_analysis{rf_index,1}(1)+1] ;
+            end
+        end
     
-        demixed_cell = obj.returnjointvideo_jjm(m, frames, raw_movie_file, raw_frames);
+        demixed_cell = obj.returnjointvideo_jjm(m, frames, raw_video_file, raw_frames);
         figure('position',[100 100 950 700])
         set(gca,'visible','off')
         movie(demixed_cell, 3); 
@@ -129,8 +140,15 @@ while and(m>=1, m<=length(ind))
     
         if cont_response == 1
             display_movie_state = 1 ;
-        elseif cont_response == 2 
-            movie(demixed_cell, 3);
+        elseif cont_response == 3 ;
+            while cont_response == 3;
+                movie(demixed_cell, 3);
+                fprintf('View more frames:');
+                cont_response = input('(1 = y/ 2 = n / 3 = repeat movie)?');
+                if cont_response == 2
+                    display_movie_state = 0; 
+                end
+            end
         else
             display_movie_state = 0 ;
         end

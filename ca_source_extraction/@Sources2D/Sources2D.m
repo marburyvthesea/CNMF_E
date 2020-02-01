@@ -747,6 +747,8 @@ classdef Sources2D < handle
         ind_del = viewNeurons_movie_jjm(obj, ind, C2, folder_nm);
         
         %%
+        obj.file_id = compile_raw_videos_jjm()
+        %%
         movie_object = returndemixedvideo_jjm(obj, neuron_idx, frame_range)
         
         %%
@@ -2021,7 +2023,7 @@ classdef Sources2D < handle
             if exist('ind_show', 'var')
                 A_ = A_(:, ind_show);
             else
-                ind_show = 1:size(A_, 2);
+                ind_show = 1:size(A_, 2); 
             end
             if ~exist('thr', 'var') || isempty(thr)
                 thr = 0.9;
