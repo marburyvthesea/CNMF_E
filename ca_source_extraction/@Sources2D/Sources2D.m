@@ -747,7 +747,7 @@ classdef Sources2D < handle
         ind_del = viewNeurons_movie_jjm(obj, ind, C2, folder_nm);
         
         %%
-        obj.file_id = compile_raw_videos_jjm()
+        %obj.file_id = compile_raw_videos_jjm()
         %%
         movie_object = returndemixedvideo_jjm(obj, neuron_idx, frame_range)
         
