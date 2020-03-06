@@ -12,10 +12,10 @@ function neuron = fix_mat_files_jjm(root)
         if ~exist([files(ff).folder, '/out.mat'], 'file')
             load([files(ff).folder, '/', files(ff).name]);
             neuron = struct(neuron);
-            neruon_out = neuron ;
+            neuron_out = neuron ;
             neuron_out.batches = [] ; 
             fname = files(ff).name ;
-            save([files(ff).folder, strcat('/', fname, '_out.mat')],'-v6','-struct','neruon_out');
+            save([files(ff).folder, strcat('/', fname, '_out.mat')],'-v6','-struct','neuron_out');
             clear neuron;
         end
     end
