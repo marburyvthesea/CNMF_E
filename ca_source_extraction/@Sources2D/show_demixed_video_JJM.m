@@ -126,11 +126,12 @@ for tt=t_begin:kt:t_end
     %         subplot(4,6, [5,6,11,12]+12);
     
     %axes(ax_mix); cla;
-    imagesc(obj.reshape(Y_mixed(:, m,:),2));  hold on;
+    imagesc(obj.reshape(Y_mixed(:, m,:),2));  
+    %hold on;
     %title('Demixed');
     %ext(1, 10, sprintf('Time: %.2f second', (tt)/obj.Fs), 'color', 'w', 'fontweight', 'bold');
     
-    %axis equal tight off;
+    axis equal tight off;
     %     box on; set(gca, 'xtick', []);
     %     set(gca, 'ytick', []);
     
