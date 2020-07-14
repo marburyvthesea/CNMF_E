@@ -506,7 +506,7 @@ classdef Sources2D < handle
         %         function [Y_res] = residual(obj, Yr)
         %             Y_res = Yr - obj.A*obj.C - obj.b*obj.f;
         %         end
-        
+        avi_filename_jjm = show_demixed_video_JJM(obj,save_avi, kt, frame_range, center_ac, range_ac, range_Y, multi_factor, use_craw)
         %% take the snapshot of current results
         function [A, C,  b, f, P, S] = snapshot(obj)
             A = obj.A;
