@@ -80,12 +80,13 @@ for m=1:3
 end
 Y_mixed = uint16(Y_mixed*2/(amp_ac)*65536);
 %% play and save
-ax_y =   axes('position', [0.015, 0.51, 0.3, 0.42]);
-ax_bg=   axes('position', [0.015, 0.01, 0.3, 0.42]);
-ax_signal=    axes('position', [0.345, 0.51, 0.3, 0.42]);
-ax_denoised =    axes('position', [0.345, 0.01, 0.3, 0.42]);
-ax_res =    axes('position', [0.675, 0.51, 0.3, 0.42]);
-ax_mix =     axes('position', [0.675, 0.01, 0.3, 0.42]);
+%ax_y =   axes('position', [0.015, 0.51, 0.3, 0.42]);
+%ax_bg=   axes('position', [0.015, 0.01, 0.3, 0.42]);
+%ax_signal=    axes('position', [0.345, 0.51, 0.3, 0.42]);
+%ax_denoised =    axes('position', [0.345, 0.01, 0.3, 0.42]);
+%ax_res =    axes('position', [0.675, 0.51, 0.3, 0.42]);
+%ax_mix =     axes('position', [0.675, 0.01, 0.3, 0.42]);
+figure
 tt0 = (t_begin-1);
 for tt=t_begin:kt:t_end
     m = tt-tt0;
@@ -126,10 +127,10 @@ for tt=t_begin:kt:t_end
     
     %axes(ax_mix); cla;
     imagesc(obj.reshape(Y_mixed(:, m,:),2));  hold on;
-    title('Demixed');
+    %title('Demixed');
     %ext(1, 10, sprintf('Time: %.2f second', (tt)/obj.Fs), 'color', 'w', 'fontweight', 'bold');
     
-    axis equal tight off;
+    %axis equal tight off;
     %     box on; set(gca, 'xtick', []);
     %     set(gca, 'ytick', []);
     
